@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block container %}
+<section id="content" class="p-strip--light">
+  <div class="row">
+    <h1>{{ product.name }}</h1>
+    {% if product.image_path %}
+    <img
+      src="{{ url_for('static', filename='uploads/' + product.image_path) }}"
+    />
+    {% endif %}
+    <p><em>Price: </em>{{ product.price }}</p>
+    <p><em>Category: </em>{{ product.category.name }}</p>
+  </div>
+</section>
+{% endblock %}

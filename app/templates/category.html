@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block container %}
+<section id="content" class="p-strip--light">
+  <div class="row">
+    <h1>Products in {{ category.name }}</h1>
+    {% for product in category.products %}
+    <div class="col-4 p-card">
+      <h3 class="p-card__title">
+        <a href="/product/{{ product.id }}">{{ product.name }}</a>
+      </h3>
+      <div class="p-card__content">
+        <p><em>Price: </em>{{ "$%.2f" | format(product.price) }}</p>
+        <p>
+          <em>Category: </em
+          ><a href="{{ url_for('main.category', id=product.category.id) }}"
+            >{{ product.category.name }}</a
+          >
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

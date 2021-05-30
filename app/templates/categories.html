@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block container %}
+<section id="content" class="p-strip--light">
+  <div class="row">
+    <h1>Categories</h1>
+    {% for category in categories %}
+    <div class="col-4 p-card">
+      <h3 class="p-card__title">
+        <a href="{{ url_for('main.category', id=category.id)}}"
+          >{{ category.name }}</a
+        >
+      </h3>
+      <div class="p-card__content"></div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

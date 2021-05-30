@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block container %}
+<section id="content" class="p-strip--light">
+  <div class="row">
+    <div class="col-12">
+      <h1>Create a Category</h1>
+      <form method="post" id="createCategoryForm">
+        {{ form.csrf_token }}
+        <label for="categoryName">Category name</label>
+        <input
+          type="text"
+          id="categoryName"
+          name="name"
+          placeholder="Books"
+          required
+        />
+        <button type="submit" name="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

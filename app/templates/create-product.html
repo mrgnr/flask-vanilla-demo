@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block container %}
+<section id="content" class="p-strip--light">
+  <div class="row">
+    <div class="col-12">
+      <h1>Create a Product</h1>
+      <form
+        method="post"
+        id="createProductForm"
+        role="form"
+        action="{{ url_for('main.create_product')}}"
+        enctype="multipart/form-data"
+      >
+        {{ form.csrf_token }}
+        <label for="productName">Product name</label>
+        <input
+          type="text"
+          id="productName"
+          name="name"
+          placeholder="A Great Product"
+          required
+        />
+        <label for="productPrice">Price</label>
+        <input
+          type="text"
+          id="productPrice"
+          name="price"
+          placeholder="99.99"
+          required
+        />
+        <label for="productCategory">Category</label>
+        <select id="productCategory" name="category" required>
+          {% for id, name, selected in form.category.iter_choices() %}
+          <option value="{{ id }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+        <label for="productImage">Image</label>
+        <input type="file" id="productImage" name="image" accept="image/*" />
+        <button type="submit" name="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

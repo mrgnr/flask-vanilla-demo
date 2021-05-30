@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block container %}
+<section id="content" class="p-strip--light">
+  <div class="row">
+    <h1>Products</h1>
+    {% for product in products.items %}
+    <div class="col-4 p-card">
+      <h3 class="p-card__title">
+        <a href="{{ url_for('main.product', id=product.id )}}"
+          >{{ product.name }}</a
+        >
+      </h3>
+      <div class="p-card__content">
+        <p><em>Price: </em>{{ "$%.2f" | format(product.price) }}</p>
+        <p>
+          <em>Category: </em
+          ><a href="{{ url_for('main.category', id=product.category.id) }}"
+            >{{ product.category.name }}</a
+          >
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <ol class="p-pagination">
+        <li class="p-pagination__item">
+          {% if products.has_prev %}
+          <a
+            class="p-pagination__link--previous"
+            href="{{ url_for(request.endpoint, page=products.prev_num )}}"
+            title="Previous page"
+          >
+            <i class="p-icon--chevron-down">Previous page</i>
+          </a>
+          {% else %}
+          <span class="p-pagination__link--previous is-disabled">
+            <i class="p-icon--chevron-down">Previous page</i>
+          </span>
+          {% endif %}
+        </li>
+        {% for page in range(1, products.pages + 1) %}
+        <li class="p-pagination__item">
+          <a
+            class="p-pagination__link {{ 'is-active' if page == products.page else '' }}"
+            href="{{ url_for(request.endpoint, page=page )}}"
+            >{{page}}</a
+          >
+        </li>
+
+        {% endfor %}
+        <li class="p-pagination__item">
+          {% if products.has_next %}
+          <a
+            class="p-pagination__link--next"
+            href="{{ url_for(request.endpoint, page=products.next_num )}}"
+            title="Next page"
+          >
+            <i class="p-icon--chevron-down">Previous page</i>
+          </a>
+          {% else %}
+          <span class="p-pagination__link--next is-disabled">
+            <i class="p-icon--chevron-down">Next page</i>
+          </span>
+          {% endif %}
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{
+  "name": "flask-vanilla-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass app/static/sass:app/static/css --load-path=node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "sass": "^1.34.0",
+    "vanilla-framework": "^2.29.0"
+  }
+}

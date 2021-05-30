@@ -1,0 +1,12 @@
+# python
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# node
+node_modules
+
+# scratch/development
+.scratch
+app/test.db
