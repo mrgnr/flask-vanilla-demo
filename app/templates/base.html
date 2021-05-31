@@ -56,6 +56,19 @@
                   </li>
                 </ul>
               </li>
+              {% if current_user.is_authenticated %}
+              <li class="p-navigation__item">
+                <a class="p-navigation__link" href="{{ url_for('auth.logout')}}"
+                  >Log out</a
+                >
+              </li>
+              {% else %}
+              <li class="p-navigation__item">
+                <a class="p-navigation__link" href="{{ url_for('auth.login')}}"
+                  >Log in</a
+                >
+              </li>
+              {% endif %}
             </ul>
             <form class="p-search-box" method="post" action="/search">
               {{ search_form().csrf_token }}
@@ -70,7 +83,7 @@
               <button type="reset" class="p-search-box__reset">
                 <i class="p-icon--close"></i>
               </button>
-              <button type="submit" class="p-search-box_button">
+              <button type="submit" class="p-search-box__button">
                 <i class="p-icon--search"></i>
               </button>
             </form>

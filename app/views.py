@@ -28,12 +28,12 @@ def allowed_file(filename):
     )
 
 
-def page_not_found(_):
-    return render_template("404.html"), 404
-
-
 def bad_request(_):
-    return render_template("404.html"), 404
+    return render_template("400.html", search_form=SearchForm), 400
+
+
+def page_not_found(_):
+    return render_template("404.html", search_form=SearchForm), 404
 
 
 @bp.context_processor

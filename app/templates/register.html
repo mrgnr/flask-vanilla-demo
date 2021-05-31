@@ -1,0 +1,29 @@
+{% extends 'home.html' %} {% block container %}
+<section id="content" class="p-strip--light">
+  <div class="row">
+    <div class="col-12">
+      <h1>Register</h1>
+      <form
+        method="post"
+        id="registerForm"
+        role="form"
+        action="{{ url_for('auth.register')}}"
+        enctype="multipart/form-data"
+      >
+        {{ form.csrf_token }}
+        <label for="username">Username</label>
+        {{ form.username() }}
+        <label for="password">Password</label>
+        {{ form.password() }}
+        <label for="confirm">Confirm</label>
+        {{ form.confirm() }}
+        <button type="submit" name="submit">Submit</button>
+      </form>
+      <p>
+        Already have an account? Log in <a href="{{ url_for('auth.login') }}">here</a> or via
+        <a href="{{ url_for('github.login')}}">via GitHub</a>.
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

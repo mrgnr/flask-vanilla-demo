@@ -9,4 +9,7 @@ node_modules
 
 # scratch/development
 .scratch
+.env.local
+app/static/css/*.css.map
+app/static/uploads/
 app/test.db
