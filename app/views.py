@@ -2,7 +2,6 @@ import os
 
 from flask import (
     Blueprint,
-    abort,
     current_app,
     flash,
     jsonify,
@@ -148,31 +147,3 @@ def create_category():
         flash(form.errors, "negative")
 
     return render_template("create-category.html", form=form)
-
-
-@bp.route("/api/categories")
-def api_categories():
-    categories = Category.query.all()
-    res = {}
-    for category in categories:
-        res[category.id] = {"name": category.name}
-        for product in category.products:
-            res[category.id]["products"] = {
-                "id": product.id,
-                "name": product.name,
-                "price": product.price,
-            }
-    return jsonify(res)
-
-
-@bp.route("/api/products")
-def api_products():
-    products = Product.query.all()
-    res = {}
-    for product in products:
-        res[product.id] = {
-            "name": product.name,
-            "price": str(product.price),
-            "category": product.category.name,
-        }
-    return jsonify(res)

@@ -3,11 +3,13 @@ import os
 from redis import Redis
 import secrets
 
-from flask import Flask, render_template
+from flask import Flask
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -18,6 +20,16 @@ login_manager = LoginManager()
 migrate = Migrate()
 redis = Redis()
 csrf = CSRFProtect()
+my_api = Api(decorators=[csrf.exempt])
+
+# Initialize REST APIs
+from .api import ProductApi
+
+my_api.add_resource(
+    ProductApi,
+    "/api/v1/product",
+    "/api/v1/product/<int:id>",
+)
 
 
 def create_app():
@@ -42,6 +54,7 @@ def create_app():
     migrate.init_app(app, db)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
+    my_api.init_app(app)
     csrf.init_app(app)
 
     # Initialize database
