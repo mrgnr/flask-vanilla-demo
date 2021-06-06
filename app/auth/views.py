@@ -11,11 +11,16 @@ from flask import (
     session,
     url_for,
 )
+from flask_admin import AdminIndexView
+from flask_admin.contrib.sqla.view import ModelView
+from flask_admin.form import SecureForm, rules
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_dance.consumer import oauth_authorized
 from flask_dance.consumer.storage.sqla import SQLAlchemyStorage
 from flask_dance.contrib.github import make_github_blueprint, github
 from sqlalchemy.exc import NoResultFound
+from werkzeug.security import generate_password_hash
+from wtforms import PasswordField
 
 from app import db, login_manager
 from .forms import LoginForm, RegistrationFrom
@@ -157,3 +162,69 @@ def logout():
     logout_user()
     flash(f"Logged out {username}")
     return redirect(url_for("auth.home"))
+
+
+class CustomAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin()
+
+
+class DefaultAdminView(ModelView):
+    form_base_class = SecureForm
+    can_view_details = True
+
+
+class UserAdminView(DefaultAdminView):
+    column_editable_list = ["username", "admin"]
+    column_searchable_list = ["username"]
+    column_sortable_list = ["username", "admin"]
+    column_exclude_list = ["pwdhash"]
+    column_filters = ["username", "admin"]
+    form_excluded_columns = ["pwdhash"]
+    form_edit_rules = [
+        "username",
+        "admin",
+        rules.Header("Reset Password"),
+        "new_password",
+        "confirm",
+    ]
+    form_create_rules = ["username", "admin", "password"]
+
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin()
+
+    def scaffold_form(self):
+        form_class = super(UserAdminView, self).scaffold_form()
+        form_class.password = PasswordField("Password")
+        form_class.new_password = PasswordField("New Password")
+        form_class.confirm = PasswordField("Confirm New Password")
+        return form_class
+
+    def create_model(self, form):
+        model = self.model(form.username.data, form.password.data, form.admin.data)
+        form.populate_obj(model)
+        self.session.add(model)
+        self._on_model_change(form, model, True)
+        self.session.commit()
+
+    def update_model(self, form, model):
+        form.populate_obj(model)
+        if form.new_password.data:
+            if form.new_password.data != form.confirm.data:
+                flash("Passwords must match")
+                return
+            model.pwdhash = generate_password_hash(form.new_password.data)
+        self.session.add(model)
+        self._on_model_change(form, model, False)
+        self.session.commit()
+
+
+class ProductAdminView(DefaultAdminView):
+    column_list = ["name", "price", "image_path", "category"]
+
+
+class CategoryAdminView(DefaultAdminView):
+    def scaffold_form(self):
+        form_class = super(CategoryAdminView, self).scaffold_form()
+        del form_class.products
+        return form_class

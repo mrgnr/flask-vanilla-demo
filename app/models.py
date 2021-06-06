@@ -18,7 +18,7 @@ class Product(db.Model):
         self.image_path = image_path
 
     def __repr__(self):
-        return "<Product %d>" % self.id
+        return f"{self.name}"
 
 
 class Category(db.Model):
@@ -29,4 +29,4 @@ class Category(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "<Category %d>" % self.id
+        return f"{self.name}"
