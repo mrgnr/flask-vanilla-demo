@@ -4,7 +4,6 @@ from flask import (
     Blueprint,
     current_app,
     flash,
-    jsonify,
     redirect,
     render_template,
     request,
@@ -12,7 +11,7 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
-from app import ALLOWED_EXTENSIONS, db, redis
+from app import ALLOWED_EXTENSIONS, db
 from .models import Category, Product
 from .forms import CategoryForm, ProductForm, SearchForm
 
@@ -73,9 +72,6 @@ def categories():
 @bp.route("/product/<id>")
 def product(id):
     product = Product.query.get_or_404(id)
-    product_key = f"product-{product.id}"
-    redis.set(product_key, product.name)
-    redis.expire(product_key, 600)
     return render_template("product.html", product=product)
 
 
@@ -83,13 +79,6 @@ def product(id):
 def category(id):
     category = Category.query.get_or_404(id)
     return render_template("category.html", category=category)
-
-
-@bp.route("/recent-products")
-def recent_products():
-    keys_alive = redis.keys("product-*")
-    products = [redis.get(k).decode("utf-8") for k in keys_alive]
-    return jsonify({"products": products})
 
 
 @bp.route("/create-product", methods=["GET", "POST"])

@@ -1,7 +1,6 @@
 import os
-
-from redis import Redis
 import secrets
+from pathlib import Path
 
 from flask import Flask
 from flask_admin import Admin
@@ -19,7 +18,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
-redis = Redis()
 csrf = CSRFProtect()
 my_api = Api(decorators=[csrf.exempt])
 from .auth.views import CustomAdminIndexView
@@ -52,6 +50,9 @@ def create_app():
     app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get(
         "GITHUB_OAUTH_CLIENT_SECRET"
     )
+
+    # Create uploads directory
+    Path(app.config["UPLOAD_FOLDER"]).mkdir(parents=True, exist_ok=True)
 
     # Initialize extensions
     db.init_app(app)
