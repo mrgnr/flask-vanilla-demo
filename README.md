@@ -56,6 +56,18 @@ You should be able to access the site at https://localhost:5000.
 > for development. You can leave this option off and access the site over plain
 > HTTP if you don't care about using GitHub for user authentication.
 
+## Deployment
+
+### Heroku button
+
+Click the button below to deploy to Heroku.
+
+[![Deploy to Heroku][heroku-button]][heroku-deploy]
+
+### Heroku CLI
+
+TODO
+
 [flask]: https://flask.palletsprojects.com/
 [vanilla]: https://vanillaframework.io/
 [flask-cookbook]: https://www.packtpub.com/product/flask-framework-cookbook-second-edition/9781789951295
@@ -67,3 +79,5 @@ You should be able to access the site at https://localhost:5000.
 [flask-restful]: https://flask-restful.readthedocs.io/
 [flask-admin]: https://flask-admin.readthedocs.io/
 [github-create-app]: https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app
+[heroku-button]: https://www.herokucdn.com/deploy/button.svg
+[heroku-deploy]: https://heroku.com/deploy?template=https://github.com/mrgnr/flask-vanilla-demo/tree/heroku

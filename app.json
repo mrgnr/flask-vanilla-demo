@@ -1,0 +1,27 @@
+{
+  "name": "Flask-Vanilla Demo",
+  "description": "A demo website that uses Flask and Vanilla Framework",
+  "repository": "https://github.com/mrgnr/flask-vanilla-demo",
+  "keywords": ["flask", "vanilla"],
+  "success_url": "/",
+  "env": {
+    "SECRET_KEY": {
+      "description": "The secret key for signing session cookies, etc.",
+      "generator": "secret"
+    },
+    "FLASK_ENV": {
+      "description": "The deployment environment (development or production)",
+      "value": "production"
+    },
+    "GITHUB_OAUTH_CLIENT_ID": {
+      "description": "Your GitHub OAuth Client ID",
+      "value": "",
+      "required": false
+    },
+    "GITHUB_OAUTH_CLIENT_SECRET": {
+      "description": "Your GitHub OAuth Client Secret",
+      "value": "",
+      "required": false
+    }
+  }
+}
