@@ -2,8 +2,6 @@ import os
 import secrets
 from pathlib import Path
 
-from redis import Redis
-
 from flask import Flask
 from flask_admin import Admin
 from flask_login import LoginManager
@@ -20,7 +18,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
-redis = Redis()
 csrf = CSRFProtect()
 my_api = Api(decorators=[csrf.exempt])
 from .auth.views import CustomAdminIndexView
