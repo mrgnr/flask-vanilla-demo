@@ -22,6 +22,11 @@
       "description": "Your GitHub OAuth Client Secret",
       "value": "",
       "required": false
+    },
+    "SENTRY_DSN": {
+      "description": "Your DSN for application monitoring with Sentry",
+      "value": "",
+      "required": false
     }
   }
 }

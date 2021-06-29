@@ -2,6 +2,8 @@ import os
 import secrets
 from pathlib import Path
 
+import sentry_sdk
+
 from flask import Flask
 from flask_admin import Admin
 from flask_login import LoginManager
@@ -9,7 +11,9 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+from sentry_sdk.integrations.flask import FlaskIntegration
 
+sentry_sdk.init(dsn=os.environ.get("SENTRY_DSN", ""), integrations=[FlaskIntegration()])
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
 basedir = os.path.abspath(os.path.dirname(__file__))
